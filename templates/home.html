@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div id="dynHTML">
+    <p>Enter your name:</p>
+
+    <div onKeyPress="return checkName(event)">
+    <!--div onKeyPress="return end()"-->
+        <form id="form01" action="" onsubmit="return false;">
+            <p id="cursor-line" class="visible">&gt;&gt; 
+                <input 
+                type="text"
+                id="input" 
+                name="password" 
+                oninput="this.style.width = ((this.value.length + 1) * 14) + 'px';" 
+                maxlength="24"
+                autocomplete="off"
+                > 
+            </p>
+        </form>
+    </div>
+
+    <div id="text" class="redText"></div>
+</div>
+
+{% endblock %}

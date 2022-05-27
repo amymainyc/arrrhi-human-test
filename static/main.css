@@ -1,0 +1,353 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
+
+    width: 1200px;
+    height: 400px;
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    margin-top: -200px;
+    margin-left: -600px;
+}
+
+.redText {
+    color: red;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+input {
+    background-color: black;
+    color: white;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 24px;
+    border-width: 0px;
+    width: 14px;
+    outline: none;
+}
+
+.hidden {
+    display: none;
+    visibility: hidden;
+}
+  
+/* ----- blinking cursor animation ----- */
+.typed-cursor{
+    opacity: 1;
+    -webkit-animation: blink 0.95s infinite;
+    -moz-animation: blink 0.95s infinite;
+    -ms-animation: blink 0.95s infinite;
+    -o-animation: blink 0.95s infinite;
+    animation: blink 0.95s infinite;
+}
+
+@keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-webkit-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-moz-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-ms-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-o-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+
+.progressBar {
+    width: 600px;
+    height: 30px;
+    border: 1px solid white;
+    margin: auto;
+}
+
+#bar {
+    width: 24px; 
+    height: 24px;
+    position: relative;
+    top: 3px;
+    left: 3px;
+    background-color: white;
+}
+
+.load {
+    animation: load 30s ease-in-out;
+}
+
+@keyframes load {
+    0% {
+        width: 24px;
+    }
+    100% {
+        width: 594px;
+    }
+}
+
+.game {
+    width: 600px;
+    height: 200px;
+    border-bottom: 1px solid white;
+    margin: auto;
+}
+
+#dino {
+    width: 50px; 
+    height: 50px;
+    background-image: url(dino.png);
+    background-size: 50px 50px;
+    position: relative;
+    top: 150px;
+}
+
+.jump {
+    animation: jump 0.5s linear;
+}
+
+@keyframes jump {
+    0% {
+        top: 150px;
+    }
+    30% {
+        top: 90px;
+    }
+    50% {
+        top: 60px;
+    }
+    80% {
+        top: 90px;
+    }
+    100% {
+        top: 150px;
+    }
+}
+
+#cactus {
+    width: 20px;
+    height: 40px;
+    position: relative;
+    top: 110px;
+    left: 580px;
+    background-image: url(cactus.png);
+    background-size: 20px 40px;
+    animation: block 2s infinite linear;
+}
+
+@keyframes block {
+    0% {
+        left: 580px;
+    }
+    100% {
+        left: -6px;
+    }
+}
+
+.quiz {
+    width: 100%;
+    min-height: 20vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0;
+    padding: 0;
+}
+
+section {
+    width: 50%;
+    min-height: inherit;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    position: relative;
+}
+
+.dark {
+    --primary: hsl(1, 100%, 68%);
+    --other: hsl(0, 0%, 90%);
+}
+
+h2 {
+    color: var(--other);
+    padding: 8px 4px;
+    border-bottom: 2px solid var(--other);
+    font-size: 20px;
+    font-weight: 100;
+}
+
+label {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    margin: 12px 0;
+
+    cursor: pointer;
+    position: relative;
+}
+
+input.q {
+    opacity: 0;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+.design {
+    width: 16px;
+    height: 16px;
+
+    border: 1px solid var(--other);
+    border-radius: 100%;
+    margin-right: 16px;
+
+    position: relative;
+}
+
+.design::before,
+.design::after {
+    content: "";
+    display: block;
+
+    width: inherit;
+    height: inherit;
+
+    border-radius: inherit;
+
+    position: absolute;
+    transform: scale(0);
+    transform-origin: center center;
+}
+
+.design:before {
+    background: var(--other);
+    opacity: 0;
+    transition: .3s;
+}
+
+.design::after {
+    background: var(--primary);
+    opacity: .4;
+    transition: .6s;
+}
+
+.text {
+    color: var(--other);
+}
+
+input:checked+.design::before {
+    opacity: 1;
+    transform: scale(.6);
+}
+
+
+input:hover+.design,
+input:focus+.design {
+    border: 1px solid var(--primary);
+}
+
+input:hover+.design:before,
+input:focus+.design:before {
+    background: var(--primary);
+}
+
+input:hover~.text {
+    color: var(--primary);
+}
+
+input:focus+.design::after,
+input:active+.design::after {
+    opacity: .1;
+    transform: scale(2.6);
+}
+
+.endTitle {
+    color: #fff;
+    font-size: 92px;
+    font-family: "ubuntu";
+    text-transform: uppercase;
+    font-weight: 700;
+    font-family: "Josefin Sans", sans-serif;
+    background: linear-gradient(0.25turn, #69c8f1, #faf281, #f799ff);
+    background-size: auto auto;
+    background-clip: border-box;
+    background-size: 200% auto;
+    color: #fff;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textclip 1.5s linear infinite;
+    display: inline-block;
+}
+
+.endSubtitle {
+    color: #fff;
+    font-size: 22px;
+    font-family: "ubuntu";
+    text-transform: uppercase;
+    font-weight: 700;
+    font-family: "Josefin Sans", sans-serif;
+    display: inline-block;
+    background: linear-gradient(0.25turn, #69c8f1, #faf281, #f799ff);
+    background-size: auto auto;
+    background-clip: border-box;
+    background-size: 200% auto;
+    color: #fff;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textclip 1.5s linear infinite;
+    display: inline-block;
+}
+
+@keyframes textclip {
+    to {
+    background-position: 200% center;
+    }
+}
+  
+/* Create two equal columns that floats next to each other */
+.column {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #fff;
+    float: left;
+    width: 40%;
+    padding: 10px;
+    margin: 45px;
+}
+  
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
