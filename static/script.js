@@ -2,8 +2,10 @@ var playerName
 
 function checkName(e) {
     if((e && e.keyCode == 13) || e == 0) {
-        value = document.forms.form01.name.value;
+        value = document.forms.form01.name.value
+        console.log(value)
         if (value) {
+            console.log(value)
             playerName = value
             startStory()
         }
@@ -32,8 +34,8 @@ function startStory() {
     })
     .catch(function(error) {
         console.log(error);
-    });
-};
+    })
+}
 
 function displayText() {
     // set typing speed and wait times
@@ -68,9 +70,9 @@ function displayText() {
 
                 // stops the function from self-calling when all letters are typed
                 if (letterCount === fullText.length) {
-                    loc.innerHTML = '&gt;&gt; ' + showText;
+                    loc.innerHTML = showText;
                 } else {
-                    loc.innerHTML = '&gt;&gt; ' + showText + '<span class="typed-cursor">' + cursorChar + '</span>';
+                    loc.innerHTML = showText + '<span class="typed-cursor">' + cursorChar + '</span>';
                     typeLetter();
                 }
             }, timeChar);
