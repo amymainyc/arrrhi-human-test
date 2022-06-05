@@ -3,126 +3,113 @@ var playerName
 function checkName(e) {
     if((e && e.keyCode == 13) || e == 0) {
         value = document.forms.form01.name.value
-        console.log(value)
         if (value) {
-            console.log(value)
             playerName = value
-            startStory()
+            startStory(2, 15)
         }
     }
 }
 
-function startStory() {
-    fetch("/welcome")
-    .then(response => response.text())
-    .then(function(data) {
-        var content = document.getElementById("dynHTML")
-        content.innerHTML = data
-        document.getElementById("line1").content = `Welcome ${playerName}!`
-        displayText()
+function startStory(pageStart, pageEnd) {
+    if (pageStart <= pageEnd) {
+        fetch(`${pageStart}`)
+        .then(response => response.text())
+        .then(data => {
+            var content = document.getElementById("dynHTML")
+            data = data.replace("[name]", playerName)
+            content.innerHTML = data
+            var timeoutTime = displayText()
 
-        setTimeout(function () {
-            function enter1(event) {
-                if (event.key == 'Enter') {
-                    document.removeEventListener('keyup', enter1)
-                    dino()
+            setTimeout(function () {
+                enterText = document.getElementById("enter")
+                enterText.className = 'visible'
+                
+                function enter1(event) {
+                    if (event.key == 'Enter') {
+                        document.removeEventListener('keyup', enter1)
+                        startStory(pageStart+1)
+                    }
                 }
-            }
-            document.addEventListener('keyup', enter1)
-        }, 18000)
-        
-    })
-    .catch(function(error) {
-        console.log(error);
-    })
+                document.addEventListener('keyup', enter1)
+            }, timeoutTime)
+            
+        })
+        .catch(function(error) {
+            console.log(error);
+        })
+    }
 }
 
 function displayText() {
     // set typing speed and wait times
-    var timeInit = 1000;     // initial wait before typing first line
-    var timeGap = 1000;      // wait time between each line
-    var timeChar = 60;       // time until next letter
+    var timeInit = 600     // initial wait before typing first line
+    var timeGap = 600      // wait time between each line
+    var timeChar = 60       // time until next letter
 
-    var cursorChar = '&#9608;';
+    var cursorChar = '&#9608;'
 
-    var originId = ['line1', 'line2', 'line3', 'line4', 'line5', 'line6'];
-    var originText = new Array();
-    for (var i = 0; i < originId.length; i++) {
-        originText.push(document.getElementById(originId[i]).innerHTML);
+    var lineCount = document.getElementsByTagName("p").length - 1
+    var originTags = document.getElementsByTagName("p")
+    var originText = new Array()
+    for (var i = 0; i < lineCount; i++) {
+        originText.push(originTags[i].innerHTML)
     }
 
-    var cursorLine = document.getElementById('cursor-line');
-
-    var currentTimeout;
-    var showCursor;
+    var currentTimeout
 
     var typeWriter = function(index) {
-        var loc = document.getElementById(originId[index]);
-        var fullText = originText[index];
-        var letterCount = 0;
+        var loc = originTags[index]
+        var fullText = originText[index]
+        var letterCount = 0
 
         // this function spits out one letter per call, then calls the subsequent typeLetter()
         var typeLetter = function() {
             currentTimeout = setTimeout(function() {
-                loc.className = 'visible';
-                letterCount += 1;
-                var showText = fullText.substring(0, letterCount);
+                loc.className = 'visible'
+                letterCount += 1
+                var showText = fullText.substring(0, letterCount)
 
                 // stops the function from self-calling when all letters are typed
                 if (letterCount === fullText.length) {
-                    loc.innerHTML = showText;
+                    loc.innerHTML = showText
                 } else {
-                    loc.innerHTML = showText + '<span class="typed-cursor">' + cursorChar + '</span>';
-                    typeLetter();
+                    loc.innerHTML = showText + '<span class="typed-cursor">' + cursorChar + '</span>'
+                    typeLetter()
                 }
-            }, timeChar);
-        };
+            }, timeChar)
+        }
 
-        typeLetter();
-
-        // show cursor on next line
-        var totalTime = fullText.length * timeChar + timeChar;
-        showCursor = setTimeout(function() {
-            document.getElementById('cursor-line').className = 'visible';
-        }, totalTime);
-    };
+        typeLetter()
+    }
 
     // calculated time delays
-    var delayTime = [timeInit];
-    var cumulativeDelayTime = [timeInit];
-    for (var i = 0; i < originId.length; i++) {
-        var elapsedTimeLine = originText[i].length * timeChar + timeGap + timeChar * 2;
-        delayTime.push(elapsedTimeLine);
-        var sum = 0;
+    var delayTime = [timeInit]
+    var cumulativeDelayTime = [timeInit]
+    for (var i = 0; i < lineCount; i++) {
+        var elapsedTimeLine = originText[i].length * timeChar + timeGap + timeChar * 2
+        delayTime.push(elapsedTimeLine)
+        var sum = 0
         for (var j = 0; j < delayTime.length; j++) {
-            sum += delayTime[j];
-        };
-        cumulativeDelayTime.push(sum);
-    };
+            sum += delayTime[j]
+        }
+        cumulativeDelayTime.push(sum)
+    }
+    console.log(cumulativeDelayTime)
 
     // calls setTimeout for each line
-    var typeLineTimeout = new Array();
-    for (var i = 0; i < originId.length; i++) {
+    var typeLineTimeout = new Array()
+    for (var i = 0; i < lineCount; i++) {
         typeLineTimeout[i] = setTimeout((function(index) {
             return function() {
-            cursorLine.className = 'hidden';
-            typeWriter(index);
+                typeWriter(index)
             }
-        })(i), cumulativeDelayTime[i]);
+        })(i), cumulativeDelayTime[i])
+    }
 
-    };
+    return cumulativeDelayTime[lineCount]
+}
 
-    // stops all timeouts
-    var skip = function() {
-        clearTimeout(currentTimeout);
-        clearTimeout(showCursor);
-        for (var i = 0; i < typeLineTimeout.length; i++) {
-            clearTimeout(typeLineTimeout[i]);
-        };
-    };
-};
-
-var displayTextFunction;
+var displayTextFunction
 
 function dino() {
     displayTextFunction = window.displayText;

@@ -11,9 +11,11 @@
     </head>
 
     <body>
-        {% block content %}
-        {% endblock %}
-        <script type="text/javascript" src="static/main.js"></script>
+        <div id="dynHTML">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <script type="text/javascript" src="static/script.js"></script>
     </body>
     
 </html>

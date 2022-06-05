@@ -1,6 +1,5 @@
-from flask import Flask, redirect, url_for, render_template, request, session
+from flask import Flask, render_template
 import json
-import requests
 
 with open("config.json") as f:
     data = json.load(f)
