@@ -1,4 +1,6 @@
-// 2-15 Preface
+// 2-15 Intro
+// 16-24 Backstory
+// 25-28 Pretest
 //
 
 var playerName
@@ -8,8 +10,7 @@ function checkName(e) {
         value = document.forms.form01.name.value
         if (value) {
             playerName = value
-            // intro(15, 15)
-            backstory(16, 18)
+            intro(2, 15)
         }
     }
 }
@@ -42,7 +43,7 @@ function intro(pageStart, pageEnd) {
             console.log(error)
         })
     } else {
-        backstory(16, 18)
+        backstory(16, 24)
     }
 }
 
@@ -81,7 +82,39 @@ function backstory(pageStart, pageEnd) {
             console.log(error)
         })
     } else {
-        dino()
+        pretest(25, 28)
+    }
+}
+
+function pretest(pageStart, pageEnd) {
+    if (pageStart <= pageEnd) {
+        fetch(`${pageStart}`)
+        .then(response => response.text())
+        .then(data => {
+            var content = document.getElementById("dynHTML")
+            data = data.replace("[name]", playerName)
+            content.innerHTML = data
+            var timeoutTime = displayText()
+
+            setTimeout(function () {
+                enterText = document.getElementById("enter")
+                enterText.className = 'visible'
+                
+                function enter1(event) {
+                    if (event.key == 'Enter') {
+                        document.removeEventListener('keyup', enter1)
+                        intro(pageStart+1, pageEnd)
+                    }
+                }
+                document.addEventListener('keyup', enter1)
+            }, timeoutTime)
+            
+        })
+        .catch(function(error) {
+            console.log(error)
+        })
+    } else {
+        // backstory(16, 24)
     }
 }
 
