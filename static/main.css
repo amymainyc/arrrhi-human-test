@@ -41,7 +41,7 @@ input {
 }
   
 /* ----- blinking cursor animation ----- */
-.typed-cursor{
+.typedCursor{
     opacity: 1;
     -webkit-animation: blink 0.95s infinite;
     -moz-animation: blink 0.95s infinite;
@@ -74,6 +74,12 @@ input {
     0% { opacity:1; }
     50% { opacity:0; }
     100% { opacity:1; }
+}
+
+button {
+    position: absolute;
+    visibility: hidden;
+    background-color: transparent;
 }
 
 .progressBar {
@@ -287,67 +293,4 @@ input:focus+.design::after,
 input:active+.design::after {
     opacity: .1;
     transform: scale(2.6);
-}
-
-.endTitle {
-    color: #fff;
-    font-size: 92px;
-    font-family: "ubuntu";
-    text-transform: uppercase;
-    font-weight: 700;
-    font-family: "Josefin Sans", sans-serif;
-    background: linear-gradient(0.25turn, #69c8f1, #faf281, #f799ff);
-    background-size: auto auto;
-    background-clip: border-box;
-    background-size: 200% auto;
-    color: #fff;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: textclip 1.5s linear infinite;
-    display: inline-block;
-}
-
-.endSubtitle {
-    color: #fff;
-    font-size: 22px;
-    font-family: "ubuntu";
-    text-transform: uppercase;
-    font-weight: 700;
-    font-family: "Josefin Sans", sans-serif;
-    display: inline-block;
-    background: linear-gradient(0.25turn, #69c8f1, #faf281, #f799ff);
-    background-size: auto auto;
-    background-clip: border-box;
-    background-size: 200% auto;
-    color: #fff;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: textclip 1.5s linear infinite;
-    display: inline-block;
-}
-
-@keyframes textclip {
-    to {
-    background-position: 200% center;
-    }
-}
-  
-/* Create two equal columns that floats next to each other */
-.column {
-    border-style: solid;
-    border-width: 1px;
-    border-color: #fff;
-    float: left;
-    width: 40%;
-    padding: 10px;
-    margin: 45px;
-}
-  
-/* Clear floats after the columns */
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
 }

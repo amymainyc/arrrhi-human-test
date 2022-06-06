@@ -1,3 +1,6 @@
+// 2-15 Preface
+//
+
 var playerName
 
 function checkName(e) {
@@ -5,12 +8,13 @@ function checkName(e) {
         value = document.forms.form01.name.value
         if (value) {
             playerName = value
-            startStory(2, 15)
+            // intro(15, 15)
+            backstory(16, 18)
         }
     }
 }
 
-function startStory(pageStart, pageEnd) {
+function intro(pageStart, pageEnd) {
     if (pageStart <= pageEnd) {
         fetch(`${pageStart}`)
         .then(response => response.text())
@@ -27,7 +31,7 @@ function startStory(pageStart, pageEnd) {
                 function enter1(event) {
                     if (event.key == 'Enter') {
                         document.removeEventListener('keyup', enter1)
-                        startStory(pageStart+1)
+                        intro(pageStart+1, pageEnd)
                     }
                 }
                 document.addEventListener('keyup', enter1)
@@ -35,8 +39,49 @@ function startStory(pageStart, pageEnd) {
             
         })
         .catch(function(error) {
-            console.log(error);
+            console.log(error)
         })
+    } else {
+        backstory(16, 18)
+    }
+}
+
+function backstory(pageStart, pageEnd) {
+    if (pageStart <= pageEnd) {
+        fetch(`${pageStart}`)
+        .then(response => response.text())
+        .then(data => {
+            var content = document.getElementById("dynHTML")
+            data = data.replace("[name]", playerName)
+            content.innerHTML = data
+            var timeoutTime = displayText()
+
+            setTimeout(function () {
+                var bug = document.getElementById("bug")
+                bug.style.top = Math.random() * window.innerHeight / 2 + "px"
+                bug.style.left = Math.random() * window.innerWidth / 2 + "px"
+                
+                var bugImg = document.getElementById("bugImg")
+                var size = Math.random() * 50 + 50 + "px"
+                bug.style.height = size
+                bug.style.width = size
+                bugImg.style.height = size
+                bugImg.style.width = size
+
+                bug.style.visibility = 'visible'
+                
+                bug.addEventListener("click", bugClick)
+                function bugClick() {
+                    backstory(pageStart+1, pageEnd)
+                }
+            }, timeoutTime)
+            
+        })
+        .catch(function(error) {
+            console.log(error)
+        })
+    } else {
+        dino()
     }
 }
 
@@ -73,7 +118,7 @@ function displayText() {
                 if (letterCount === fullText.length) {
                     loc.innerHTML = showText
                 } else {
-                    loc.innerHTML = showText + '<span class="typed-cursor">' + cursorChar + '</span>'
+                    loc.innerHTML = showText + '<span class="typedCursor">' + cursorChar + '</span>'
                     typeLetter()
                 }
             }, timeChar)
@@ -94,7 +139,6 @@ function displayText() {
         }
         cumulativeDelayTime.push(sum)
     }
-    console.log(cumulativeDelayTime)
 
     // calls setTimeout for each line
     var typeLineTimeout = new Array()
@@ -116,56 +160,56 @@ function dino() {
     fetch("/dino")
     .then(response => response.text())
     .then(function(data) {
-        var content = document.getElementById("dynHTML");
-        content.innerHTML = data;
+        var content = document.getElementById("dynHTML")
+        content.innerHTML = data
 
-        const dino = document.getElementById("dino");
-        const cactus = document.getElementById("cactus");
-        const bar = document.getElementById("bar");
-        bar.classList.add("load");
+        const dino = document.getElementById("dino")
+        const cactus = document.getElementById("cactus")
+        const bar = document.getElementById("bar")
+        bar.classList.add("load")
 
         function jump() {
             if (dino.classList != "jump") {
-                dino.classList.add("jump");
+                dino.classList.add("jump")
 
                 setTimeout(function () {
-                    dino.classList.remove("jump");
-                }, 500);
-            };
-        };
+                    dino.classList.remove("jump")
+                }, 500)
+            }
+        }
 
         let isAlive = setInterval(function () {
-            let dinoTop = parseInt(window.getComputedStyle(dino).getPropertyValue("top"));
-            let cactusLeft = parseInt(window.getComputedStyle(cactus).getPropertyValue("left"));
+            let dinoTop = parseInt(window.getComputedStyle(dino).getPropertyValue("top"))
+            let cactusLeft = parseInt(window.getComputedStyle(cactus).getPropertyValue("left"))
             if (cactusLeft < 50 && cactusLeft > -6 && dinoTop >= 140) {
-                cactus.setAttribute("left", "580px");
-                reload();
-            };
-        }, 10);
+                cactus.setAttribute("left", "580px")
+                reload()
+            }
+        }, 10)
 
         document.addEventListener("keydown", function (event) {
-            jump();
-        });
+            jump()
+        })
 
         function reload() {
-            bar.classList.remove("load");
-            bar.setAttribute("width", "24px");
+            bar.classList.remove("load")
+            bar.setAttribute("width", "24px")
             setTimeout(function () {
-                bar.classList.add("load");
-            }, 500);
-        };
+                bar.classList.add("load")
+            }, 500)
+        }
 
         let isHuman = setInterval(function () {
-            let barRight = parseInt(window.getComputedStyle(bar).getPropertyValue("width"));
+            let barRight = parseInt(window.getComputedStyle(bar).getPropertyValue("width"))
             if (barRight > 590) {
-                q1();
+                q1()
             }
-        });
+        })
 
     })
     .catch(function(error) {
-        console.log(error);
-    });
+        console.log(error)
+    })
 };
 
 
