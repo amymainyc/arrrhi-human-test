@@ -274,11 +274,8 @@ function dinoDialogue() {
 }
 
 var reactionTime = 0
-var displayTextFunction
 
 function dino() {
-
-    displayTextFunction = window.displayText
     fetch("/dino")
     .then(response => response.text())
     .then(function(data) {
@@ -344,36 +341,7 @@ function dino() {
             }, 500)
         }
 
-        let isHuman = setInterval(function () {
-            let barRight = parseInt(window.getComputedStyle(bar).getPropertyValue("width"))
-            if (barRight > 590) {
-                reactionTime = stddev(times)
-                fetch("36")
-                .then(response => response.text())
-                .then(data => {
-                    var content = document.getElementById("dynHTML")
-                    data = data.replace("[reactionTime]", Math.round(reactionTime * 100) / 100)
-                    content.innerHTML = data
-                    var timeoutTime = displayText()
-
-                    setTimeout(function () {
-                        enterText = document.getElementById("enter")
-                        enterText.className = 'visible'
-                        
-                        function continueStory() {
-                            document.removeEventListener('keyup', continueStory)
-                            intro(pageStart+1, pageEnd)
-                        }
-                        document.addEventListener('keyup', continueStory)
-                        document.addEventListener('mouseup', continueStory)
-                    }, timeoutTime)
-                    
-                })
-                .catch(function(error) {
-                    console.log(error)
-                })
-            }
-        }, 10)
+       
     })
     .catch(function(error) {
         console.log(error)
