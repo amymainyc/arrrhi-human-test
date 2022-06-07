@@ -6,7 +6,7 @@ function checkName(e) {
         value = document.forms.form01.name.value
         if (value) {
             playerName = value
-            moralityDialogue(2, 15)
+            intro(2, 15)
         }
     }
 }
