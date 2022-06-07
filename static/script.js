@@ -27,6 +27,7 @@ function intro(pageStart, pageEnd) {
                 
                 function continueStory() {
                     document.removeEventListener('keyup', continueStory)
+                    document.removeEventListener('mouseup', continueStory)
                     intro(pageStart+1, pageEnd)
                 }
                 document.addEventListener('keyup', continueStory)
@@ -95,7 +96,8 @@ function pretest(pageStart, pageEnd) {
                 
                 function continueStory() {
                     document.removeEventListener('keyup', continueStory)
-                    intro(pageStart+1, pageEnd)
+                    document.removeEventListener('mouseup', continueStory)
+                    pretest(pageStart+1, pageEnd)
                 }
                 document.addEventListener('keyup', continueStory)
                 document.addEventListener('mouseup', continueStory)
@@ -160,7 +162,8 @@ function letterCaptchaDialogue() {
             
             function continueStory() {
                 document.removeEventListener('keyup', continueStory)
-                intro(pageStart+1, pageEnd)
+                document.removeEventListener('mouseup', continueStory)
+                letterCaptcha()
             }
             document.addEventListener('keyup', continueStory)
             document.addEventListener('mouseup', continueStory)
@@ -211,7 +214,8 @@ function moralityDialogue() {
             
             function continueStory() {
                 document.removeEventListener('keyup', continueStory)
-                intro(pageStart+1, pageEnd)
+                document.removeEventListener('mouseup', continueStory)
+                moralityQs(1)
             }
             document.addEventListener('keyup', continueStory)
             document.addEventListener('mouseup', continueStory)
@@ -255,7 +259,8 @@ function dinoDialogue() {
             
             function continueStory() {
                 document.removeEventListener('keyup', continueStory)
-                intro(pageStart+1, pageEnd)
+                document.removeEventListener('mouseup', continueStory)
+                dino()
             }
             document.addEventListener('keyup', continueStory)
             document.addEventListener('mouseup', continueStory)
@@ -411,7 +416,8 @@ function lastQDialogue() {
             
             function continueStory() {
                 document.removeEventListener('keyup', continueStory)
-                intro(pageStart+1, pageEnd)
+                document.removeEventListener('mouseup', continueStory)
+                lastQ()
             }
             document.addEventListener('keyup', continueStory)
             document.addEventListener('mouseup', continueStory)
@@ -462,7 +468,8 @@ function endDialogue() {
             
             function continueStory() {
                 document.removeEventListener('keyup', continueStory)
-                intro(pageStart+1, pageEnd)
+                document.removeEventListener('mouseup', continueStory)
+                end()
             }
             document.addEventListener('keyup', continueStory)
             document.addEventListener('mouseup', continueStory)
