@@ -274,8 +274,11 @@ function dinoDialogue() {
 }
 
 var reactionTime = 0
+var displayTextFunction
 
 function dino() {
+
+    displayTextFunction = window.displayText
     fetch("/dino")
     .then(response => response.text())
     .then(function(data) {
@@ -341,9 +344,6 @@ function dino() {
             }, 500)
         }
 
-        reload()
-
-        sleep(1000)
         let isHuman = setInterval(function () {
             let barRight = parseInt(window.getComputedStyle(bar).getPropertyValue("width"))
             if (barRight > 590) {
