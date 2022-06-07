@@ -76,6 +76,7 @@ button {
     position: absolute;
     visibility: hidden;
     background-color: transparent;
+    border-radius: 0px;
 }
 
 table, td, th {

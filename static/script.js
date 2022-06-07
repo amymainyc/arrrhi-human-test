@@ -272,6 +272,8 @@ function dinoDialogue() {
     })
 }
 
+var reactionTime = 0
+
 function dino() {
     fetch("/dino")
     .then(response => response.text())
@@ -284,10 +286,21 @@ function dino() {
         const bar = document.getElementById("bar")
         bar.classList.add("load")
 
+        let jumps = 0
+        const d = new Date()
+        let time1 = d.getTime()
+        let times = new Array()
+
         function jump() {
             if (dino.classList != "jump") {
                 dino.classList.add("jump")
-
+                jumps += 1
+                const d = new Date()
+                let time2 = d.getTime()
+                let timeBetweenJumps = time2-time1
+                time1 = time2
+                
+                times.push(timeBetweenJumps)
                 setTimeout(function () {
                     dino.classList.remove("jump")
                 }, 500)
@@ -327,9 +340,11 @@ function dino() {
             }, 500)
         }
 
+        sleep(1000)
         let isHuman = setInterval(function () {
             let barRight = parseInt(window.getComputedStyle(bar).getPropertyValue("width"))
             if (barRight > 590) {
+                reactionTime = stddev(times)
                 endDialogue()
             }
         }, 10)
@@ -339,12 +354,37 @@ function dino() {
     })
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+function stddev(arr){
+    // Creating the mean with Array.reduce
+    let mean = arr.reduce((acc, curr)=>{
+        return acc + curr
+    }, 0) / arr.length;
+     
+    // Assigning (value - mean) ^ 2 to every array item
+    arr = arr.map((k)=>{
+        return (k - mean) ** 2
+    })
+     
+    // Calculating the sum of updated array
+   let sum = arr.reduce((acc, curr)=> acc + curr, 0);
+    
+   // Calculating the variance
+   let variance = sum / arr.length
+    
+   // Returning the Standered deviation
+   return Math.sqrt(sum / arr.length)
+}
+
 function endDialogue() {
     fetch("36")
     .then(response => response.text())
     .then(data => {
         var content = document.getElementById("dynHTML")
-        data = data.replace("[attempts]", attempts)
+        data = data.replace("[attempts]", attempts).replace("[reactionTime]", Math.round(reactionTime * 100) / 100)
         if (attempts > 5) {
             data = data.replace("[pass/fail]", "Unfortunately, you did not pass.")
         } else {

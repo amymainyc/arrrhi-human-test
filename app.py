@@ -27,6 +27,9 @@ def getScores(name, score):
             if len(scoreData) > 10:
                 scoreData = scoreData[:-1]
             break
+        elif i == len(scoreData) - 1 and i < 9:
+            scoreData.append([name, int(score)])
+
     scores["scores"] = scoreData
     with open("scores.json", "w") as f:
         json.dump(scores, f, indent=4)
