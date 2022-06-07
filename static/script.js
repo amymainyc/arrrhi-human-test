@@ -25,13 +25,12 @@ function intro(pageStart, pageEnd) {
                 enterText = document.getElementById("enter")
                 enterText.className = 'visible'
                 
-                function enter1(event) {
-                    if (event.key == 'Enter') {
-                        document.removeEventListener('keyup', enter1)
-                        intro(pageStart+1, pageEnd)
-                    }
+                function continueStory() {
+                    document.removeEventListener('keyup', continueStory)
+                    intro(pageStart+1, pageEnd)
                 }
-                document.addEventListener('keyup', enter1)
+                document.addEventListener('keyup', continueStory)
+                document.addEventListener('mouseup', continueStory)
             }, timeoutTime)
             
         })
@@ -94,13 +93,12 @@ function pretest(pageStart, pageEnd) {
                 enterText = document.getElementById("enter")
                 enterText.className = 'visible'
                 
-                function enter1(event) {
-                    if (event.key == 'Enter') {
-                        document.removeEventListener('keyup', enter1)
-                        pretest(pageStart+1, pageEnd)
-                    }
+                function continueStory() {
+                    document.removeEventListener('keyup', continueStory)
+                    intro(pageStart+1, pageEnd)
                 }
-                document.addEventListener('keyup', enter1)
+                document.addEventListener('keyup', continueStory)
+                document.addEventListener('mouseup', continueStory)
             }, timeoutTime)
             
         })
@@ -160,13 +158,12 @@ function letterCaptchaDialogue() {
             enterText = document.getElementById("enter")
             enterText.className = 'visible'
             
-            function enter1(event) {
-                if (event.key == 'Enter') {
-                    document.removeEventListener('keyup', enter1)
-                    letterCaptcha()
-                }
+            function continueStory() {
+                document.removeEventListener('keyup', continueStory)
+                intro(pageStart+1, pageEnd)
             }
-            document.addEventListener('keyup', enter1)
+            document.addEventListener('keyup', continueStory)
+            document.addEventListener('mouseup', continueStory)
         }, timeoutTime)
         
     })
@@ -212,13 +209,12 @@ function moralityDialogue() {
             enterText = document.getElementById("enter")
             enterText.className = 'visible'
             
-            function enter1(event) {
-                if (event.key == 'Enter') {
-                    document.removeEventListener('keyup', enter1)
-                    moralityQs(1)
-                }
+            function continueStory() {
+                document.removeEventListener('keyup', continueStory)
+                intro(pageStart+1, pageEnd)
             }
-            document.addEventListener('keyup', enter1)
+            document.addEventListener('keyup', continueStory)
+            document.addEventListener('mouseup', continueStory)
         }, timeoutTime)
         
     })
@@ -257,13 +253,12 @@ function dinoDialogue() {
             enterText = document.getElementById("enter")
             enterText.className = 'visible'
             
-            function enter1(event) {
-                if (event.key == 'Enter') {
-                    document.removeEventListener('keyup', enter1)
-                    dino()
-                }
+            function continueStory() {
+                document.removeEventListener('keyup', continueStory)
+                intro(pageStart+1, pageEnd)
             }
-            document.addEventListener('keyup', enter1)
+            document.addEventListener('keyup', continueStory)
+            document.addEventListener('mouseup', continueStory)
         }, timeoutTime)
         
     })
@@ -328,7 +323,7 @@ function dino() {
         document.addEventListener("keydown", function (event) {
             jump()
         })
-        document.addEventListener("click", function (event) {
+        document.addEventListener("mousedown", function (event) {
             jump()
         })
 
@@ -357,13 +352,12 @@ function dino() {
                         enterText = document.getElementById("enter")
                         enterText.className = 'visible'
                         
-                        function enter1(event) {
-                            if (event.key == 'Enter') {
-                                document.removeEventListener('keyup', enter1)
-                                lastQDialogue()
-                            }
+                        function continueStory() {
+                            document.removeEventListener('keyup', continueStory)
+                            intro(pageStart+1, pageEnd)
                         }
-                        document.addEventListener('keyup', enter1)
+                        document.addEventListener('keyup', continueStory)
+                        document.addEventListener('mouseup', continueStory)
                     }, timeoutTime)
                     
                 })
@@ -415,13 +409,12 @@ function lastQDialogue() {
             enterText = document.getElementById("enter")
             enterText.className = 'visible'
             
-            function enter1(event) {
-                if (event.key == 'Enter') {
-                    document.removeEventListener('keyup', enter1)
-                    lastQ()
-                }
+            function continueStory() {
+                document.removeEventListener('keyup', continueStory)
+                intro(pageStart+1, pageEnd)
             }
-            document.addEventListener('keyup', enter1)
+            document.addEventListener('keyup', continueStory)
+            document.addEventListener('mouseup', continueStory)
         }, timeoutTime)
         
     })
@@ -467,13 +460,12 @@ function endDialogue() {
             enterText = document.getElementById("enter")
             enterText.className = 'visible'
             
-            function enter1(event) {
-                if (event.key == 'Enter') {
-                    document.removeEventListener('keyup', enter1)
-                    end()
-                }
+            function continueStory() {
+                document.removeEventListener('keyup', continueStory)
+                intro(pageStart+1, pageEnd)
             }
-            document.addEventListener('keyup', enter1)
+            document.addEventListener('keyup', continueStory)
+            document.addEventListener('mouseup', continueStory)
         }, timeoutTime)
         
     })
