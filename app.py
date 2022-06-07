@@ -4,6 +4,9 @@ import json
 with open("config.json") as f:
     data = json.load(f)
 
+with open("scores.json") as f:
+    scores = json.load(f)
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = data["app_secret_key"]
 
@@ -14,6 +17,20 @@ def home():
 @app.route("/getConfig")
 def getConfig():
     return data
+
+@app.route("/getScores/<name>/<score>")
+def getScores(name, score):
+    scoreData = scores["scores"]
+    for i in range(len(scoreData)):
+        if int(score) < scoreData[i][1]:
+            scoreData.insert(i, [name, int(score)])
+            if len(scoreData) > 10:
+                scoreData = scoreData[:-1]
+            break
+    scores["scores"] = scoreData
+    with open("scores.json", "w") as f:
+        json.dump(scores, f, indent=4)
+    return scores
 
 @app.route("/<page>")
 def page(page):

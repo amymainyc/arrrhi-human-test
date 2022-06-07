@@ -1,8 +1,3 @@
-// 2-15 Intro
-// 16-24 Backstory
-// 25-28 Pretest
-//
-
 var playerName
 var attempts = 1
 
@@ -11,8 +6,7 @@ function checkName(e) {
         value = document.forms.form01.name.value
         if (value) {
             playerName = value
-            // intro(2, 15)
-            letterCaptcha()
+            moralityDialogue(2, 15)
         }
     }
 }
@@ -197,7 +191,7 @@ function checkCaptcha(e) {
     if((e && e.keyCode == 13) || e == 0) {
         value = document.forms.form02.captcha.value
         if (value == "EOIEJIW83OCBICJBNAKJNCSIWMWPRX8Z927") {
-            dino()
+            moralityDialogue()
         } else {
             failMessage = document.getElementById("fail")
             failMessage.style.visibility = "visible"
@@ -221,7 +215,7 @@ function moralityDialogue() {
             function enter1(event) {
                 if (event.key == 'Enter') {
                     document.removeEventListener('keyup', enter1)
-                    moralityQs()
+                    moralityQs(1)
                 }
             }
             document.addEventListener('keyup', enter1)
@@ -233,8 +227,176 @@ function moralityDialogue() {
     })
 }
 
-function moralityQs() {
+function addAttempt() {
+    failMessage = document.getElementById("fail")
+    failMessage.style.visibility = "visible"
+    attempts += 1
+}
 
+function moralityQs(n) {
+    fetch(`q${n}`)
+    .then(response => response.text())
+    .then(data => {
+        var content = document.getElementById("dynHTML")
+        content.innerHTML = data
+    })
+    .catch(function(error) {
+        console.log(error)
+    })
+}
+
+function dinoDialogue() {
+    fetch("34")
+    .then(response => response.text())
+    .then(data => {
+        var content = document.getElementById("dynHTML")
+        content.innerHTML = data
+        var timeoutTime = displayText()
+
+        setTimeout(function () {
+            enterText = document.getElementById("enter")
+            enterText.className = 'visible'
+            
+            function enter1(event) {
+                if (event.key == 'Enter') {
+                    document.removeEventListener('keyup', enter1)
+                    dino()
+                }
+            }
+            document.addEventListener('keyup', enter1)
+        }, timeoutTime)
+        
+    })
+    .catch(function(error) {
+        console.log(error)
+    })
+}
+
+function dino() {
+    fetch("/dino")
+    .then(response => response.text())
+    .then(function(data) {
+        var content = document.getElementById("dynHTML")
+        content.innerHTML = data
+
+        const dino = document.getElementById("dino")
+        const cactus = document.getElementById("cactus")
+        const bar = document.getElementById("bar")
+        bar.classList.add("load")
+
+        function jump() {
+            if (dino.classList != "jump") {
+                dino.classList.add("jump")
+
+                setTimeout(function () {
+                    dino.classList.remove("jump")
+                }, 500)
+            }
+        }
+
+        var alive = true
+        let isAlive = setInterval(function () {
+            let dinoTop = parseInt(window.getComputedStyle(dino).getPropertyValue("top"))
+            let cactusLeft = parseInt(window.getComputedStyle(cactus).getPropertyValue("left"))
+            if (cactusLeft < 50 && cactusLeft > -6 && dinoTop >= 140) {
+                cactus.setAttribute("left", "580px")
+                reload()
+                alive = false
+            }
+        }, 10)
+        let checkAlive = setInterval(() => {
+            if (!alive) {
+                attempts += 1
+                console.log(attempts)
+                alive = true
+            }
+        }, 2000)
+
+        document.addEventListener("keydown", function (event) {
+            jump()
+        })
+        document.addEventListener("click", function (event) {
+            jump()
+        })
+
+        function reload() {
+            bar.classList.remove("load")
+            bar.setAttribute("width", "24px")
+            setTimeout(function () {
+                bar.classList.add("load")
+            }, 500)
+        }
+
+        let isHuman = setInterval(function () {
+            let barRight = parseInt(window.getComputedStyle(bar).getPropertyValue("width"))
+            if (barRight > 590) {
+                endDialogue()
+            }
+        }, 10)
+    })
+    .catch(function(error) {
+        console.log(error)
+    })
+}
+
+function endDialogue() {
+    fetch("36")
+    .then(response => response.text())
+    .then(data => {
+        var content = document.getElementById("dynHTML")
+        data = data.replace("[attempts]", attempts)
+        if (attempts > 5) {
+            data = data.replace("[pass/fail]", "Unfortunately, you did not pass.")
+        } else {
+            data = data.replace("[pass/fail]", "You passed!")
+        }
+        content.innerHTML = data
+        var timeoutTime = displayText()
+
+        setTimeout(function () {
+            enterText = document.getElementById("enter")
+            enterText.className = 'visible'
+            
+            function enter1(event) {
+                if (event.key == 'Enter') {
+                    document.removeEventListener('keyup', enter1)
+                    end()
+                }
+            }
+            document.addEventListener('keyup', enter1)
+        }, timeoutTime)
+        
+    })
+    .catch(function(error) {
+        console.log(error)
+    })
+}
+
+function end() {
+    fetch("end")
+    .then(response => response.text())
+    .then(data => {
+        var content = document.getElementById("dynHTML")
+
+        let row = "<tr><td>[position]</td><td>[name]</td><td>[score]</td><td>[passed]</td></tr>"
+        let scoreData = ""
+        fetch(`getScores/${playerName}/${attempts}`)
+        .then(response => response.text())
+        .then(scores => { 
+            scores = JSON.parse(scores)["scores"]
+            for (i = 0; i < scores.length; i++) {
+                s = scores[i]
+                let passed = "yes"
+                if (s[1] > 5) passed = "no"
+                scoreData += row.replace("[position]", i+1).replace("[name]", s[0]).replace("[score]", s[1]).replace("[passed]", passed)
+            }
+            data = data.replace("[scoreData]", scoreData)
+            content.innerHTML = data
+        })
+    })
+    .catch(function(error) {
+        console.log(error)
+    })
 }
 
 function displayText() {
@@ -304,64 +466,3 @@ function displayText() {
 
     return cumulativeDelayTime[lineCount]
 }
-
-var displayTextFunction
-
-function dino() {
-    displayTextFunction = window.displayText;
-    fetch("/dino")
-    .then(response => response.text())
-    .then(function(data) {
-        var content = document.getElementById("dynHTML")
-        content.innerHTML = data
-
-        const dino = document.getElementById("dino")
-        const cactus = document.getElementById("cactus")
-        const bar = document.getElementById("bar")
-        bar.classList.add("load")
-
-        function jump() {
-            if (dino.classList != "jump") {
-                dino.classList.add("jump")
-
-                setTimeout(function () {
-                    dino.classList.remove("jump")
-                }, 500)
-            }
-        }
-
-        let isAlive = setInterval(function () {
-            let dinoTop = parseInt(window.getComputedStyle(dino).getPropertyValue("top"))
-            let cactusLeft = parseInt(window.getComputedStyle(cactus).getPropertyValue("left"))
-            if (cactusLeft < 50 && cactusLeft > -6 && dinoTop >= 140) {
-                cactus.setAttribute("left", "580px")
-                reload()
-            }
-        }, 10)
-
-        document.addEventListener("keydown", function (event) {
-            jump()
-        })
-
-        function reload() {
-            bar.classList.remove("load")
-            bar.setAttribute("width", "24px")
-            setTimeout(function () {
-                bar.classList.add("load")
-            }, 500)
-        }
-
-        let isHuman = setInterval(function () {
-            let barRight = parseInt(window.getComputedStyle(bar).getPropertyValue("width"))
-            if (barRight > 590) {
-                q1()
-            }
-        })
-
-    })
-    .catch(function(error) {
-        console.log(error)
-    })
-}
-
-

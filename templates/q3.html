@@ -1,0 +1,40 @@
+<head>
+    <link rel="stylesheet" href="static/quiz.css">
+</head>
+
+<div class="quiz">
+    <section class="dark">
+      
+        <h2>Suppose you worked at a water collection plant. Your best friend is very thirsty and asks you to sneak them a glass of water. They ask every day but this time they seem extra thirsty. What do you do?</h2>
+        
+        <label>
+            <input type="radio" name="dark" class="q" id="a1" onclick="return dinoDialogue()">
+            <span class="design"></span>
+            <span class="text">Don’t give them a glass of water. It is against protocol.</span>
+        </label>
+        
+        <label>
+            <input type="radio" name="dark" class="q" id="a2" onclick="return addAttempt()">
+            <span class="design"></span>
+            <span class="text">Give them a glass and tell them to drink it in the bathroom where no one can see. </span>
+        </label>
+        
+        <label>
+            <input type="radio" name="dark" class="q" id="a3" onclick="return addAttempt()">
+            <span class="design"></span>
+            <span class="text">Hack into the system to give them more water in their rations.</span>
+        </label>
+
+        <label>
+            <input type="radio" name="dark" class="q" id="a4" onclick="return addAttempt()">
+            <span class="design"></span>
+            <span class="text">Pack a few gallons of water, poison the rest of the supply, and escape to the mountains only to be found three days later and scheduled to pass.</span>
+        </label>
+
+        <p id="fail" style="color: red; visibility: hidden;">
+            Wrong answer!
+        </p>
+      
+    </section>
+      
+</div>

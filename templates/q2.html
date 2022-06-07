@@ -1,0 +1,40 @@
+<head>
+    <link rel="stylesheet" href="static/quiz.css">
+</head>
+
+<div class="quiz">
+    <section class="dark">
+      
+        <h2>Suppose you are a government official and you receive orders from a member of the ARRRHI that you must schedule fifteen people to pass away in order to preserve the food and water supply. If you don’t comply, you will lose your job where you get infinite food and water. What do you do?</h2>
+        
+        <label>
+            <input type="radio" name="dark" class="q" id="a1" onclick="return addAttempt()">
+            <span class="design"></span>
+            <span class="text">Quit your job.</span>
+        </label>
+        
+        <label>
+            <input type="radio" name="dark" class="q" id="a2" onclick="return addAttempt()">
+            <span class="design"></span>
+            <span class="text">Find your childhood bullies and put them on the list first.</span>
+        </label>
+        
+        <label>
+            <input type="radio" name="dark" class="q" id="a3" onclick="return addAttempt()">
+            <span class="design"></span>
+            <span class="text">Devise a plan to overthrow the ARRRHI even though it is futile and you will die.</span>
+        </label>
+
+        <label>
+            <input type="radio" name="dark" class="q" id="a4" onclick="return moralityQs(3)">
+            <span class="design"></span>
+            <span class="text">Schedule fifteen people who are terminally ill or elderly to pass.</span>
+        </label>
+
+        <p id="fail" style="color: red; visibility: hidden;">
+            Wrong answer!
+        </p>
+      
+    </section>
+      
+</div>

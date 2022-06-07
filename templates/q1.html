@@ -5,33 +5,35 @@
 <div class="quiz">
     <section class="dark">
       
-        <h2>Who is always right?</h2>
+        <h2>Suppose a man walks up to your door and pleads for your help. He is a fugitive who is scheduled to pass away today and asks if he can hide in your house for a few days. He offers you water and to share a box of chocolate chip cookies. Rations are running low and you could really use the extra food and water. What do you do?</h2>
         
         <label>
-            <input type="radio" name="dark" class="q" id="a1">
+            <input type="radio" name="dark" class="q" id="a1" onclick="return addAttempt()">
             <span class="design"></span>
-            <span class="text">Moonflower</span>
+            <span class="text">Let him in, give him a nice blanket and warm candle.</span>
         </label>
         
         <label>
-            <input type="radio" name="dark" class="q" id="a2">
+            <input type="radio" name="dark" class="q" id="a2" onclick="return addAttempt()">
             <span class="design"></span>
-            <span class="text">FlowerPower</span>
+            <span class="text">Take the cookies and water, then kick him out. He’s dying today anyways.</span>
         </label>
         
         <label>
-            <input type="radio" name="dark" class="q" id="a3">
+            <input type="radio" name="dark" class="q" id="a3" onclick="return moralityQs(2)">
             <span class="design"></span>
-            <span class="text">Moon Baboon</span>
+            <span class="text">Report him to the ARRRHI. They will take care of it from there.</span>
         </label>
 
         <label>
-            <input type="radio" name="dark" class="q" id="a4" onclick="return q2();">
+            <input type="radio" name="dark" class="q" id="a4" onclick="return addAttempt()">
             <span class="design"></span>
-            <span class="text">Jake</span>
+            <span class="text">Close the door.</span>
         </label>
 
-        <div id="text" class="redText"></div>
+        <p id="fail" style="color: red; visibility: hidden;">
+            Wrong answer!
+        </p>
       
     </section>
       
