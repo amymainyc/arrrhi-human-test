@@ -340,6 +340,8 @@ function dino() {
             }, 500)
         }
 
+        reload()
+
         sleep(1000)
         let isHuman = setInterval(function () {
             let barRight = parseInt(window.getComputedStyle(bar).getPropertyValue("width"))
