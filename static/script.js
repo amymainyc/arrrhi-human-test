@@ -4,13 +4,15 @@
 //
 
 var playerName
+var attempts = 1
 
 function checkName(e) {
     if((e && e.keyCode == 13) || e == 0) {
         value = document.forms.form01.name.value
         if (value) {
             playerName = value
-            intro(2, 15)
+            // intro(2, 15)
+            letterCaptcha()
         }
     }
 }
@@ -53,7 +55,6 @@ function backstory(pageStart, pageEnd) {
         .then(response => response.text())
         .then(data => {
             var content = document.getElementById("dynHTML")
-            data = data.replace("[name]", playerName)
             content.innerHTML = data
             var timeoutTime = displayText()
 
@@ -92,7 +93,6 @@ function pretest(pageStart, pageEnd) {
         .then(response => response.text())
         .then(data => {
             var content = document.getElementById("dynHTML")
-            data = data.replace("[name]", playerName)
             content.innerHTML = data
             var timeoutTime = displayText()
 
@@ -103,7 +103,7 @@ function pretest(pageStart, pageEnd) {
                 function enter1(event) {
                     if (event.key == 'Enter') {
                         document.removeEventListener('keyup', enter1)
-                        intro(pageStart+1, pageEnd)
+                        pretest(pageStart+1, pageEnd)
                     }
                 }
                 document.addEventListener('keyup', enter1)
@@ -114,8 +114,127 @@ function pretest(pageStart, pageEnd) {
             console.log(error)
         })
     } else {
-        // backstory(16, 24)
+        catOrDog()
     }
+}
+
+function catOrDog() {
+    fetch('catcha')
+    .then(response => response.text())
+    .then(data => {
+        var content = document.getElementById("dynHTML")
+        content.innerHTML = data
+
+        submit = document.getElementById("submit")
+        submit.addEventListener("click", checkAnswers)
+        function checkAnswers() {
+            correct = 0
+            total = 9
+            catChecked = document.querySelector("#cb8").checked
+            if (catChecked) correct += 1
+            for (i = 1; i <= total; i++) {
+                if (i != 8) {
+                    dogChecked = document.querySelector(`#cb${i}`).checked
+                    if (!dogChecked) correct += 1
+                }
+            }
+            console.log(correct)
+            if (correct < 9) {
+                failMessage = document.getElementById("fail")
+                failMessage.innerHTML = `<br>You are ${Math.floor(correct/total*100)}% correct. Please try again.`
+                failMessage.style.visibility = 'visible'
+                attempts += 1
+            } else {
+                letterCaptchaDialogue()
+            }
+        }
+    })
+    .catch(function(error) {
+        console.log(error)
+    })
+}
+
+function letterCaptchaDialogue() {
+    fetch("30")
+    .then(response => response.text())
+    .then(data => {
+        var content = document.getElementById("dynHTML")
+        content.innerHTML = data
+        var timeoutTime = displayText()
+
+        setTimeout(function () {
+            enterText = document.getElementById("enter")
+            enterText.className = 'visible'
+            
+            function enter1(event) {
+                if (event.key == 'Enter') {
+                    document.removeEventListener('keyup', enter1)
+                    letterCaptcha()
+                }
+            }
+            document.addEventListener('keyup', enter1)
+        }, timeoutTime)
+        
+    })
+    .catch(function(error) {
+        console.log(error)
+    })
+}
+
+function letterCaptcha() {
+    fetch("letters")
+    .then(response => response.text())
+    .then(data => {
+        var content = document.getElementById("dynHTML")
+        content.innerHTML = data     
+    })
+    .catch(function(error) {
+        console.log(error)
+    })
+}
+
+function checkCaptcha(e) {
+    if((e && e.keyCode == 13) || e == 0) {
+        value = document.forms.form02.captcha.value
+        if (value == "EOIEJIW83OCBICJBNAKJNCSIWMWPRX8Z927") {
+            dino()
+        } else {
+            failMessage = document.getElementById("fail")
+            failMessage.style.visibility = "visible"
+            attempts += 1
+        }
+    }
+}
+
+function moralityDialogue() {
+    fetch("32")
+    .then(response => response.text())
+    .then(data => {
+        var content = document.getElementById("dynHTML")
+        content.innerHTML = data
+        var timeoutTime = displayText()
+
+        setTimeout(function () {
+            enterText = document.getElementById("enter")
+            enterText.className = 'visible'
+            
+            function enter1(event) {
+                if (event.key == 'Enter') {
+                    document.removeEventListener('keyup', enter1)
+                    moralityQs()
+                }
+            }
+            document.addEventListener('keyup', enter1)
+        }, timeoutTime)
+        
+    })
+    .catch(function(error) {
+        console.log(error)
+    })
+}
+
+function moralityQs() {
+
 }
 
 function displayText() {
@@ -243,6 +362,6 @@ function dino() {
     .catch(function(error) {
         console.log(error)
     })
-};
+}
 
 

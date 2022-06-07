@@ -1,0 +1,22 @@
+<head>
+    <link rel="stylesheet" href="static/letters.css">
+</head>
+
+<img src="./static/letters/captcha.png">
+<div onKeyPress="return checkCaptcha(event)">
+    <form id="form02" action="" onsubmit="return false;">
+        <input 
+        type="text"
+        id="input" 
+        name="captcha" 
+        oninput="this.style.width = ((this.value.length + 1) * 14) + 'px';" 
+        maxlength="35"
+        autocomplete="off"
+        > 
+    </form>
+</div>
+<p id="fail" style="color: red; visibility: hidden;">
+    Wrong answer!
+</p>
+
+
