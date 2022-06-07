@@ -345,7 +345,31 @@ function dino() {
             let barRight = parseInt(window.getComputedStyle(bar).getPropertyValue("width"))
             if (barRight > 590) {
                 reactionTime = stddev(times)
-                endDialogue()
+                fetch("36")
+                .then(response => response.text())
+                .then(data => {
+                    var content = document.getElementById("dynHTML")
+                    data = data.replace("[reactionTime]", Math.round(reactionTime * 100) / 100)
+                    content.innerHTML = data
+                    var timeoutTime = displayText()
+
+                    setTimeout(function () {
+                        enterText = document.getElementById("enter")
+                        enterText.className = 'visible'
+                        
+                        function enter1(event) {
+                            if (event.key == 'Enter') {
+                                document.removeEventListener('keyup', enter1)
+                                lastQDialogue()
+                            }
+                        }
+                        document.addEventListener('keyup', enter1)
+                    }, timeoutTime)
+                    
+                })
+                .catch(function(error) {
+                    console.log(error)
+                })
             }
         }, 10)
     })
@@ -379,12 +403,58 @@ function stddev(arr){
    return Math.sqrt(sum / arr.length)
 }
 
-function endDialogue() {
-    fetch("36")
+function lastQDialogue() {
+    fetch("37")
     .then(response => response.text())
     .then(data => {
         var content = document.getElementById("dynHTML")
-        data = data.replace("[attempts]", attempts).replace("[reactionTime]", Math.round(reactionTime * 100) / 100)
+        content.innerHTML = data
+        var timeoutTime = displayText()
+
+        setTimeout(function () {
+            enterText = document.getElementById("enter")
+            enterText.className = 'visible'
+            
+            function enter1(event) {
+                if (event.key == 'Enter') {
+                    document.removeEventListener('keyup', enter1)
+                    lastQ()
+                }
+            }
+            document.addEventListener('keyup', enter1)
+        }, timeoutTime)
+        
+    })
+    .catch(function(error) {
+        console.log(error)
+    })
+}
+
+function lastQ() {
+    fetch("lastq")
+    .then(response => response.text())
+    .then(data => {
+        var content = document.getElementById("dynHTML")
+        content.innerHTML = data
+
+        no = document.getElementById("no")
+        no.addEventListener("click", addAttempt)
+
+        yes = document.getElementById("yes")
+        yes.addEventListener("click", endDialogue)
+        
+    })
+    .catch(function(error) {
+        console.log(error)
+    })
+} 
+
+function endDialogue() {
+    fetch("39")
+    .then(response => response.text())
+    .then(data => {
+        var content = document.getElementById("dynHTML")
+        data = data.replace("[attempts]", attempts)
         if (attempts > 5) {
             data = data.replace("[pass/fail]", "Unfortunately, you did not pass.")
         } else {
