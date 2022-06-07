@@ -6,8 +6,7 @@ function checkName(e) {
         value = document.forms.form01.name.value
         if (value) {
             playerName = value
-            // intro(2, 15)
-            backstory(16, 24)
+            intro(2, 15)
         }
     }
 }
