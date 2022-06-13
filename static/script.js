@@ -7,6 +7,7 @@ function checkName(e) {
         if (value) {
             playerName = value
             intro(2, 15)
+            
         }
     }
 }
@@ -340,7 +341,6 @@ function dino() {
             }, 500)
         }
 
-        sleep(1000)
         let isHuman = setInterval(function () {
             let barRight = parseInt(window.getComputedStyle(bar).getPropertyValue("width"))
             if (barRight > 590) {
@@ -370,7 +370,8 @@ function dino() {
                     console.log(error)
                 })
             }
-        }, 10)
+        }, 1000)
+
     })
     .catch(function(error) {
         console.log(error)
