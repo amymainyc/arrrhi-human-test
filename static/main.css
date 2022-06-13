@@ -86,3 +86,11 @@ table, td, th {
     border-color: white;
     padding: 10px;
 }
+
+.skipButton {
+    position: fixed;
+    font-size: 12px;
+    bottom: 30px;
+    right: 80px;
+    width: fit-content;
+}

@@ -1,6 +1,10 @@
 var playerName
 var attempts = 1
 
+function skipDialogue() {
+    catOrDog()
+}
+
 function checkName(e) {
     if((e && e.keyCode == 13) || e == 0) {
         value = document.forms.form01.name.value
