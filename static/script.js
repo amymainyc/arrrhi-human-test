@@ -363,7 +363,7 @@ function dino() {
                         
                         function continueStory() {
                             document.removeEventListener('keyup', continueStory)
-                            intro(pageStart+1, pageEnd)
+                            lastQDialogue()
                         }
                         document.addEventListener('keyup', continueStory)
                         document.addEventListener('mouseup', continueStory)
