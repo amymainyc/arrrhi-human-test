@@ -1,4 +1,4 @@
-var playerName
+var playerName = "[unnamed]"
 var attempts = 1
 
 function skipDialogue() {
